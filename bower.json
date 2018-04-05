@@ -1,0 +1,20 @@
+{
+  "name": "p.giphy",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^3.1.1",
+    "purescript-console": "^3.0.0",
+    "purescript-affjax": "^5.0.0",
+    "purescript-argonaut-core": "^3.1.1",
+    "purescript-argonaut": "^3.1.0",
+    "purescript-halogen": "^3.1.2"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "^3.0.0"
+  }
+}
