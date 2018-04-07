@@ -1,3 +1,8 @@
+body {
+  position: relative;
+  margin: 0;
+}
+
 .app {
   background: #333;
   position: absolute;
@@ -18,6 +23,7 @@
   font-size: 2rem;
   outline: 0;
   border: 0;
+  border-radius: 0;
   margin: 2px;
   line-height: 3rem;
 }
