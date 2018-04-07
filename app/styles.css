@@ -77,7 +77,3 @@ button:not(:disabled):hover {
   justify-content: center;
   text-align: center;
 }
-
-.output img {
-  flex: 1;
-}
