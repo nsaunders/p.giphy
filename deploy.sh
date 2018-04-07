@@ -11,4 +11,4 @@ git config user.email "nick@saunde.rs"
 git add .
 git commit -m "Deploy to GitHub Pages"
 
-git push --force --quiet origin master:gh-pages > /dev/null 2>&1
+git push --force --quiet "ssh://git@github.com/therealnicksaunders/p.giphy.git" master:gh-pages > /dev/null 2>&1
