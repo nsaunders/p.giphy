@@ -41,7 +41,7 @@ component =
     render state =
       HH.div
         [ HP.class_ $ HC.ClassName "app" ]
-          [ HH.input [ HP.placeholder """Enter an image tag, like "cats" """, HE.onValueInput $ HE.input ChangeTag ]
+          [ HH.input [ HP.placeholder """Enter a tag like "cats" """, HE.onValueInput $ HE.input ChangeTag ]
           , HH.button [ HP.disabled $ state.tag == "", HE.onClick $ HE.input_ FetchImage ] [ HH.text "Fetch" ]
           , HH.div [ HP.class_ $ HC.ClassName "output" ] $ content state.image
         ]
