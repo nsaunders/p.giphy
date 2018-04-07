@@ -1,0 +1,65 @@
+.app {
+  background: #333;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.input {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.input button, .input input {
+  font-size: 2rem;
+  outline: 0;
+  border: 0;
+  margin: 2px;
+  line-height: 3rem;
+}
+
+.input input {
+  background: #ddd;
+  color: #333;
+  flex: 4;
+  padding: 0 0.5rem;
+}
+
+.input input::placeholder {
+  color: #999;
+}
+
+.input button {
+  background: #999;
+  color: #333;
+  flex: 1;
+  margin-left: 0;
+}
+
+.input button:not(:disabled) {
+  cursor: pointer;
+}
+
+.input button:not(:disabled):hover {
+  background: #ccc;
+  color: #666;
+}
+
+.input button:disabled {
+  color: #666;
+}
+
+.output {
+  flex: 1;
+  display: flex;
+}
+
+.output img {
+  flex: 1;
+  top: 0;
+  bottom: 0;
+}
