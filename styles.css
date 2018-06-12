@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 200%;
+}
+
+html, input, button {
+  font-family: "Roboto", sans-serif;
+}
+
+.app {
+  background: #000;
+  color: #333;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.app > * {
+  display: block;
+  width: 100%;
+  border: 2px solid #333;
+  border-top: 0;
+  margin: 0;
+}
+
+.app > *:first-child {
+  border-top: 2px solid #333;
+}
+
+input, button {
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+input {
+  background: #ddd;
+  color: #333;
+  padding: 0 0.25rem;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+button {
+  background: #999;
+  color: #333;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  color: #666;
+}
+
+button:not(:disabled):hover {
+  background: #888;
+  color: #222;
+}
+
+.output {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  text-align: center;
+}
