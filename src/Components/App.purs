@@ -1,7 +1,7 @@
 module Component.App (Query, component) where
 
 import Prelude
-import Control.Monad.Aff (Aff)
+import Effect.Aff (Aff)
 import Data.Image (Image(..), fetchImage)
 import Data.Maybe (Maybe(..))
 import Halogen as H
@@ -9,7 +9,6 @@ import Halogen.HTML as HH
 import Halogen.HTML.Core as HC
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
-import Network.HTTP.Affjax (AJAX)
 
 type State =
   { tag :: String
@@ -24,7 +23,7 @@ type Input = Unit
 
 type Message = Void
 
-component :: forall eff. H.Component HH.HTML Query Unit Void (Aff (ajax :: AJAX | eff))
+component :: H.Component HH.HTML Query Unit Void Aff
 component =
   H.component
     { initialState: const initialState
@@ -49,7 +48,7 @@ component =
         content Nothing = [ HH.div [ HP.class_ $ HC.ClassName "no-content" ] [ HH.text "Nothing to show yet" ] ]
         content (Just (Image url)) = [ HH.img [HP.src url] ]
 
-    eval :: Query ~> H.ComponentDSL State Query Message (Aff (ajax :: AJAX | eff))
+    eval :: Query ~> H.ComponentDSL State Query Message Aff
     eval = case _ of
       ChangeTag tag next -> do
         state <- H.get
@@ -58,7 +57,7 @@ component =
         pure next
       FetchImage next -> do
         state <- H.get
-        imageRequest <- H.liftAff $ fetchImage state.tag
-        let nextState = { tag: state.tag, image: Just imageRequest.response }
+        image <- H.liftAff $ fetchImage state.tag
+        let nextState = { tag: state.tag, image: Just image }
         H.put nextState
         pure next

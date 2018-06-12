@@ -1,0 +1,13 @@
+{
+  "name": "p.giphy",
+  "set": "master",
+  "source": "https://github.com/purescript/package-sets.git",
+  "depends": [
+    "affjax",
+    "argonaut-codecs",
+    "argonaut-core",
+    "foreign",
+    "halogen",
+    "prelude"
+  ]
+}

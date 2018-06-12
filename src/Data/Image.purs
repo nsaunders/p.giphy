@@ -1,37 +1,31 @@
-module Data.Image (Image(..), URL, fetchImage) where
+module Data.Image (Image(..), fetchImage) where
 
 import Prelude
-import Control.Monad.Except.Trans (ExceptT(..))
-import Data.Argonaut (class DecodeJson, Json, JObject, decodeJson, foldJsonObject, getField)
-import Data.Bifunctor (lmap)
+import Control.Monad.Error.Class (throwError)
+import Data.Argonaut.Core (caseJsonObject)
+import Data.Argonaut.Decode (class DecodeJson, (.?), decodeJson)
 import Data.Either (Either(..))
-import Data.Foreign (F, ForeignError(..))
-import Data.Maybe (Maybe(Just))
-import Data.MediaType.Common (applicationJSON)
-import Data.Tuple (Tuple(..))
-import Network.HTTP.Affjax (Affjax, get)
-import Network.HTTP.Affjax.Response (class Respondable, ResponseType(JSONResponse), fromResponse)
-
-type URL = String
+import Effect.Aff (Aff)
+import Effect.Exception (error)
+import Network.HTTP.Affjax (URL, get)
+import Network.HTTP.Affjax.Response (json)
 
 data Image = Image URL
 
-instance responsableImage :: Respondable Image where
-  responseType = Tuple (Just applicationJSON) JSONResponse
-  fromResponse = fromResponse >=> decodeJsonContent
-
-decodeJsonContent :: forall a. DecodeJson a => Json -> F a
-decodeJsonContent json = (ExceptT <<< pure) $ lmap (ForeignError >>> pure) (decodeJson json)
-
 instance decodeImage :: DecodeJson Image where
-  decodeJson json = content >>= lookup "data" >>= lookup "image_url" >>= Image >>> pure
-    where
-      content :: Either String JObject
-      content = foldJsonObject (Left "Unexpected response format") Right json
-      lookup :: forall a. DecodeJson a => String -> JObject -> Either String a
-      lookup = flip getField
+  decodeJson json = do
+    content <- caseJsonObject (Left "Unexpected response format") Right json
+    dataContent <- content .? "data"
+    url <- dataContent .? "image_url"
+    pure $ Image url
 
 type Tag = String
 
-fetchImage :: forall e. Tag -> Affjax e Image
-fetchImage tag = get $ "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" <> tag
+fetchImage :: Tag -> Aff Image
+fetchImage tag = do
+  req <- get json $ "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" <> tag
+  case (decodeJson req.response) of
+    Left err ->
+      throwError (error "Unexpected response format")
+    Right image ->
+      pure image
